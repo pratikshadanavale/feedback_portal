@@ -1,0 +1,17 @@
+<!-- feedback/templates/feedback/employee_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employees</title>
+</head>
+<body>
+    <h1>Employee List</h1>
+    <ul>
+        {% for emp in employees %}
+            <li>{{ emp.name }} ({{ emp.email }})</li>
+        {% empty %}
+            <li>No employees found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

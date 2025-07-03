@@ -1,0 +1,15 @@
+<!-- feedback/templates/feedback/submit_feedback.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Feedback</title>
+</head>
+<body>
+    <h1>Submit Feedback</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

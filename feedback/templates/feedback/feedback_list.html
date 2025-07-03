@@ -1,0 +1,17 @@
+<!-- feedback/templates/feedback/feedback_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback List</title>
+</head>
+<body>
+    <h1>Feedback Entries</h1>
+    <ul>
+        {% for fb in feedbacks %}
+            <li><strong>{{ fb.subject }}</strong> - {{ fb.comment }} ({{ fb.employee.name }})</li>
+        {% empty %}
+            <li>No feedback submitted.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
