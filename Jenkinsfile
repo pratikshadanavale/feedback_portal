@@ -38,6 +38,13 @@ pipeline {
             }
         }
     }
+        stage('Simulate Deployment') {
+            steps {
+                bat 'run_gunicorn.bat'
+                echo '🚀 Deployment simulated using Gunicorn.'
+            }
+        }
+
         stage('Deploy Application') {
             steps {
                 echo '🚀 Simulating deployment using run_gunicorn.bat'
