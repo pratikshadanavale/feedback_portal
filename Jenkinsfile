@@ -1,33 +1,35 @@
 pipeline {
     agent any
 
+     tools {
+        python 'Python3.12'  
     environment {
-        VENV = "${WORKSPACE}/.venv/Scripts/activate"
+        VENV_DIR = '.venv'
     }
 
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/pratikshadanavale/feedback_portal.git'
+                git credentialsId: 'github-creds-pratiksha', url: 'https://github.com/pratikshadanavale/feedback_portal.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                bat 'python -m venv .venv'
-                bat '.venv\\Scripts\\pip install -r requirements.txt'
+                bat "${tool 'Python3.12'}\\python.exe -m venv %VENV_DIR%"
+                bat "%VENV_DIR%\\Scripts\\pip install -r requirements.txt"
             }
         }
 
         stage('Run Unit Tests') {
             steps {
-                bat '.venv\\Scripts\\pytest'
+                bat "%VENV_DIR%\\Scripts\\python manage.py test"
             }
         }
 
         stage('Run Django Checks') {
             steps {
-                bat '.venv\\Scripts\\python manage.py check'
+                bat "%VENV_DIR%\\Scripts\\python manage.py check"
             }
         }
 
