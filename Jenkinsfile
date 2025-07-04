@@ -1,11 +1,9 @@
 pipeline {
     agent any
 
-     tools {
-        python 'Python3.12'  
-     }
     environment {
         VENV_DIR = '.venv'
+        PYTHON = 'python'
     }
 
     stages {
