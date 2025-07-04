@@ -38,13 +38,18 @@ pipeline {
             }
         }
     }
-
+        stage('Deploy Application') {
+            steps {
+                echo '🚀 Simulating deployment using run_gunicorn.bat'
+                bat 'run_gunicorn.bat'
+        }
+    }
     post {
         success {
-            echo '✅ Build and validation successful. Ready to mark ticket SATMS-007 as "To Deploy".'
+            echo '✅ Build & simulated deployment successful. Ticket SATMS-009 ready for production.'
         }
         failure {
-            echo '❌ Build failed. Investigate before closing Jira ticket.'
+            echo '❌ Build or deployment failed. Investigate before closing Jira ticket.'
         }
     }
 }
