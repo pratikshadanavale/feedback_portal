@@ -2,32 +2,33 @@ pipeline {
     agent any
 
     environment {
-        VENV = "${WORKSPACE}/.venv/Scripts/activate"
+        VENV_DIR = '.venv'
+        PYTHON = 'python'
     }
 
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/pratikshadanavale/feedback_portal.git'
+                git credentialsId: 'github-creds-pratiksha', url: 'https://github.com/pratikshadanavale/feedback_portal.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                bat 'python -m venv .venv'
-                bat '.venv\\Scripts\\pip install -r requirements.txt'
+                bat "${tool 'Python3.12'}\\python.exe -m venv %VENV_DIR%"
+                bat "%VENV_DIR%\\Scripts\\pip install -r requirements.txt"
             }
         }
 
         stage('Run Unit Tests') {
             steps {
-                bat '.venv\\Scripts\\pytest'
+                bat "%VENV_DIR%\\Scripts\\python manage.py test"
             }
         }
 
         stage('Run Django Checks') {
             steps {
-                bat '.venv\\Scripts\\python manage.py check'
+                bat "%VENV_DIR%\\Scripts\\python manage.py check"
             }
         }
 
@@ -37,13 +38,18 @@ pipeline {
             }
         }
     }
-
+        stage('Deploy Application') {
+            steps {
+                echo '🚀 Simulating deployment using run_gunicorn.bat'
+                bat 'run_gunicorn.bat'
+        }
+    }
     post {
         success {
-            echo '✅ Build and validation successful. Ready to mark ticket SATMS-007 as "To Deploy".'
+            echo '✅ Build & simulated deployment successful. Ticket SATMS-009 ready for production.'
         }
         failure {
-            echo '❌ Build failed. Investigate before closing Jira ticket.'
+            echo '❌ Build or deployment failed. Investigate before closing Jira ticket.'
         }
     }
 }
