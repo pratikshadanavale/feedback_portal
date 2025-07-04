@@ -3,6 +3,7 @@ pipeline {
 
      tools {
         python 'Python3.12'  
+     }
     environment {
         VENV_DIR = '.venv'
     }
